@@ -1,0 +1,5 @@
+config BAO_HYPERCALLS
+	tristate "Bao hypercalls support"
+
+	help
+	  This implements an interface to communicate between bao and hosted guests.
