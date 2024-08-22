@@ -1,0 +1,5 @@
+config SMMU_DMA_DRIVER
+	tristate "SMMU DMA alloc support"
+
+	help
+	  This implements a driver to allocate DMU buffers to test SMMU caches.

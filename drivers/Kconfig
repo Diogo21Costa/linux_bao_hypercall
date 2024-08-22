@@ -241,4 +241,6 @@ source "drivers/hte/Kconfig"
 
 source "drivers/bao/Kconfig"
 
+source "drivers/smmu_dma_driver/Kconfig"
+
 endmenu

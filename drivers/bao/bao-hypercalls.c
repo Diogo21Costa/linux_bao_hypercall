@@ -49,6 +49,7 @@ struct bao_hypercall
     int hc_param1;
     int hc_param2;
     int hc_id;
+    uint64_t hc_ret;
 };
 
 #ifdef CONFIG_ARM64
@@ -99,7 +100,21 @@ static uint64_t bao_hypercall_notify(struct bao_hypercall *dev) {
 static ssize_t bao_hypercall_read_fops(struct file *filp,
                            char *buf, size_t count, loff_t *ppos)
 {
-    return 0;
+    struct bao_hypercall *bao_hypercall = filp->private_data;
+    char kbuf[32];
+    int len;
+
+    if(*ppos != 0)
+        return 0;
+
+    len = snprintf(kbuf, sizeof(kbuf), "%llu\n", bao_hypercall->hc_ret);
+
+    if (copy_to_user(buf, kbuf, len))
+        return -EFAULT;
+
+    *ppos += len;
+
+    return len;
 }
 
 static ssize_t bao_hypercall_write_fops(struct file *filp, const char *buf, size_t count, loff_t *ppos)
@@ -126,7 +141,7 @@ static ssize_t bao_hypercall_write_fops(struct file *filp, const char *buf, size
     bao_hypercall->hc_param1 = param1;
     bao_hypercall->hc_param2 = param2;
 
-    bao_hypercall_notify(bao_hypercall);
+    bao_hypercall->hc_ret = bao_hypercall_notify(bao_hypercall);
 
     *ppos += count;
 

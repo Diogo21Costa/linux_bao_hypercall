@@ -190,3 +190,4 @@ obj-$(CONFIG_MOST)		+= most/
 obj-$(CONFIG_PECI)		+= peci/
 obj-$(CONFIG_HTE)		+= hte/
 obj-$(CONFIG_BAO_HYPERCALLS) += bao/
+obj-$(CONFIG_SMMU_DMA_DRIVER) += smmu_dma_driver/
